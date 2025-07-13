@@ -1,4 +1,4 @@
-const { default: User } = require("../model/User");
+const  User  = require("../model/User");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -7,12 +7,11 @@ const jwt = require("jsonwebtoken")
 const register = async(req,res) => {
     try {
         const {name , email , password , role} = req.body;
-
         const emailExists = await User.findOne({email});
         if(emailExists) return res.status(400).json({success : false , error : "email exists"})
-        
-        const salt = 10;
-        const hashedPass = await bcrypt.hash(password,salt);
+            
+            const salt = 10;
+            const hashedPass = await bcrypt.hash(password,salt);
 
         const newUser = new User({
                 name,

@@ -2,14 +2,20 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv")
 const connection = require('./database/db.js')
+const authRouter = require('./Routes/auth.js')
 dotenv.config();
 
 
 connection();
 
 const app = express();
-app.use(cors());
 app.use(express.json())
+app.use(cors({
+    origin : 'http://localhost:5173' ,
+    credentials:true
+}));
+
+app.use("/api/auth" , authRouter)
 
 
 
