@@ -42,7 +42,7 @@ const Login = () => {
 
 
                     if(data.user.role === 'admin')navigate('/admin-dashboard')
-                    else navigate('/employee-dahsboard')
+                    else navigate('/employee-dashboard')
                 
                 }else toast.info(data.message || "Something happened");
             } catch (error) {

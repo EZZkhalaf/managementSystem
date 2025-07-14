@@ -1,4 +1,5 @@
 import { createContext, useContext, useState , useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const UserContext = createContext();
@@ -6,7 +7,7 @@ const UserContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -22,20 +23,7 @@ export const AuthProvider = ({ children }) => {
 
         setLoading(false); 
 
-        // const verifyUser = async() =>{
-        //     try {
-        //         const response = await fetch("http://localhost:5000/api/auth/verify" , {
-        //             headers : {'Authorization' : `Bearer ${storedToken}`}
-        //         })
-        //         if(response.ok){
-        //             setUser({user: JSON.parse(storedUser), token: storedToken })
-        //         }
-                
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-        // }
-        // verifyUser()
+
         
     }, []);
 

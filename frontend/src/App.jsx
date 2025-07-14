@@ -8,20 +8,34 @@ import Login from "./Pages/Login";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Register from "./Pages/Register";
 import EmployeeDashboard from "./Pages/EmployeeDashboard";
+import PrivateRoutes from "./Utils/PrivateRoutes";
+import RoleBasedRoutes from "./Utils/RoleBasedRoutes";
 
 const App = () =>{
 
   return (
     <AnimatePresence mode = 'wait'>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
         <Routes>
           <Route path="/" element = {<Navigate to = "admin-dashboard"/>} ></Route>
           <Route path="/login" element = {<Login />} ></Route>
           <Route path="/register" element = {<Register />} ></Route>
-          <Route path="/admin-dashboard" element = {<AdminDashboard />} ></Route>
-          <Route path="/employee-dashboard" element = {<EmployeeDashboard />} ></Route>
+          <Route path="/admin-dashboard" element = {
+            <PrivateRoutes>
+              <RoleBasedRoutes requiredRole={["admin"]}>
+                <AdminDashboard />
+              </RoleBasedRoutes>
+            </PrivateRoutes>
+            } ></Route>
+          <Route path="/employee-dashboard" element = {
+            <PrivateRoutes>
+              <RoleBasedRoutes requiredRole={["employee"]}>
+                <EmployeeDashboard />
+              </RoleBasedRoutes>
+            </PrivateRoutes>
+            } ></Route>
         </Routes>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
       
             
         <ToastContainer
