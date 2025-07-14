@@ -13,6 +13,7 @@ import RoleBasedRoutes from "./Utils/RoleBasedRoutes";
 import AdminSummary from "./Components/Dashboard/AdminSummary";
 import DepartmentsList from "./Components/Departments/DepartmentsList";
 import AddDepartment from "./Components/Departments/AddDepartment";
+import EditDepartment from "./Components/Departments/EditDepartment";
 
 const App = () =>{
 
@@ -34,6 +35,7 @@ const App = () =>{
               <Route index element={<AdminSummary />} ></Route>
               <Route path="/admin-dashboard/departments" element = {<DepartmentsList />}></Route>
               <Route path="/admin-dashboard/add-department" element = {<AddDepartment />}></Route>
+              <Route path="/admin-dashboard/department/:id" element = {<EditDepartment />}></Route>
             </Route>
           <Route path="/employee-dashboard" element = {
             <PrivateRoutes>

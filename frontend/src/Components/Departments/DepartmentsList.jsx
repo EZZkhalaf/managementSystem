@@ -9,67 +9,49 @@ import { toast } from 'react-toastify'
 
 const DepartmentsList = () => {
     const [departments , setDepartments] = useState([])
-//     useEffect(()=>{
-//         const fetchDept = async () =>{
-//             try {
-//                 const response = await fetch("http://localhost:5000/api/department",{
-//                     headers : {"Authorization" : `Bearer ${localStorage.getItem('token')}`}
-//                 })
-//                 if(response.data.success){
-//                     let sno =1 ;
-//                     const data = await response.departments.map((dep) =>(
-//                         {
-//                             _id : dep._id ,
-//                             sno : sno++,
-//                             dep_name : dep.dep_name,
-//                             action : (<DepartmentButtons />)
-//                         }
-//                     ))
-//                     setDepartments(data)
-//                 }
-                
-//             } catch (error) {
-//                 console.log(error)
-//                 toast.error("something wrong")
-//             }
-//         }
-//         fetchDept();
-//     },[])
 
-  useEffect(() => {
-    const fetchDept = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/department", {
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
+
+    //for updating the dep list after the deletion 
+    const onDepartmentDelete = async(id) => {
+      const dep = departments.filter(d => d._id !== id)
+      setDepartments(dep)
+    }
+
+    useEffect(() => {
+      const fetchDept = async () => {
+        try {
+          const response = await fetch("http://localhost:5000/api/department", {
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+
+          const resData = await response.json();
+
+          if (resData.success) {
+            let sno = 1;
+            const data = resData.departments.map((dep) => ({
+              _id: dep._id,
+              sno: sno++,
+              dep_name: dep.dep_name,
+              // action: (<DepartmentButtons _id = {dep._id} onDepartmentDelete = {onDepartmentDelete}/>)
+            }));
+
+            setDepartments(data);
+          } else {
+            toast.error("Failed to fetch departments");
           }
-        });
 
-        const resData = await response.json();
-
-        if (resData.success) {
-          let sno = 1;
-          const data = resData.departments.map((dep) => ({
-            _id: dep._id,
-            sno: sno++,
-            dep_name: dep.dep_name,
-            action: (<DepartmentButtons />)
-          }));
-
-          setDepartments(data);
-        } else {
-          toast.error("Failed to fetch departments");
+        } catch (error) {
+          console.error(error);
+          toast.error("Something went wrong");
         }
+      };
 
-      } catch (error) {
-        console.error(error);
-        toast.error("Something went wrong");
-      }
-    };
-
-    fetchDept();
-  }, []);
+      fetchDept();
+    }, []);
     return (
+        <>{}
        <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-4xl mx-auto">
             {/* Header */}
             <div className="mb-6">
@@ -95,15 +77,16 @@ const DepartmentsList = () => {
                 Add Department
             </Link>
             </div>
-            {/* <DataTable columns={columns} data= {departments}/> */}
+
             <DataTable
-                columns={columns}
-                data={departments || []}
-                pagination
-                highlightOnHover
-                striped
+              columns={columns(onDepartmentDelete)}
+              data={departments}
+              pagination
+              highlightOnHover
+              striped
             />
         </div>
+        </>
   )
 }
 
