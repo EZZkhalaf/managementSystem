@@ -10,6 +10,9 @@ import Register from "./Pages/Register";
 import EmployeeDashboard from "./Pages/EmployeeDashboard";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import RoleBasedRoutes from "./Utils/RoleBasedRoutes";
+import AdminSummary from "./Components/Dashboard/AdminSummary";
+import DepartmentsList from "./Components/Departments/DepartmentsList";
+import AddDepartment from "./Components/Departments/AddDepartment";
 
 const App = () =>{
 
@@ -26,7 +29,12 @@ const App = () =>{
                 <AdminDashboard />
               </RoleBasedRoutes>
             </PrivateRoutes>
-            } ></Route>
+            } >
+              {/* nested routes here  */}
+              <Route index element={<AdminSummary />} ></Route>
+              <Route path="/admin-dashboard/departments" element = {<DepartmentsList />}></Route>
+              <Route path="/admin-dashboard/add-department" element = {<AddDepartment />}></Route>
+            </Route>
           <Route path="/employee-dashboard" element = {
             <PrivateRoutes>
               <RoleBasedRoutes requiredRole={["employee"]}>

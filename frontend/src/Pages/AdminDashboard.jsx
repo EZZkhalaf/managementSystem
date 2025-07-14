@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {useAuthContext} from '../Context/authContext'
 import { toast } from 'react-toastify';
 import AdminSidebar from '../Components/Dashboard/AdminSidebar.jsx';
@@ -27,7 +27,8 @@ if(!user) return null
         <div className="flex-grow p-6">
           {/* Main content here */}
           <h1 className="text-2xl font-semibold">Welcome to the Admin Dashboard</h1>
-          <AdminSummary />
+          {/* <AdminSummary /> */}
+          <Outlet />
         </div>
           
       </div>

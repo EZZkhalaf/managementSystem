@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv")
 const connection = require('./database/db.js')
 const authRouter = require('./Routes/auth.js')
+const departmentRouter = require("./Routes/departments.js")
 dotenv.config();
 
 
@@ -16,6 +17,7 @@ app.use(cors({
 }));
 
 app.use("/api/auth" , authRouter)
+app.use("/api/department" , departmentRouter)
 
 
 

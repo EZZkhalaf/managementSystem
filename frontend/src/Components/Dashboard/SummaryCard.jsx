@@ -15,3 +15,5 @@ const SummaryCard = ({ icon, text, number, color }) => {
     </div>
   );
 };
+
+export default SummaryCard;
