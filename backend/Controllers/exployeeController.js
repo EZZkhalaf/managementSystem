@@ -85,15 +85,54 @@ const getEmployees = async(req,res)=>{
 const getEmployee = async(req,res)=>{
     try {
         const {id} = req.params;
-        const employee = await Employee.findById(id);
+        const employee = await Employee.findById(id).populate('department').populate("userId" , {password : 0});
 
         if(!employee) return res.status(404).json({success:false , error:"employee not found"})
-        const result = await employee.populate('department').populate("userId" , {password : 0})
-        return res.status(200).json({success : true , result})
+    
+        return res.status(200).json({success : true , employee})
         
     } catch (error) {
         console.log(error)
         return res.status(500).json("internal server error ") 
     }
 }
-module.exports = {addEmployee , upload , getEmployees , getEmployee}
+
+const editEmployee = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const {name ,
+            maritalStatus,
+            designation,
+            department,
+            salary } = req.body;
+
+        const employee = await Employee.findById(id);
+        if(!employee) return res.status(404).json({success : false , error:"employee not found"})
+        
+        const user = await User.findById(employee.userId);
+        if(!user) return res.status(404).json({success : false , error:"user not found"})
+
+        const updatedUser = await User.findByIdAndUpdate({_id :employee.userId} , {
+            name 
+        })
+
+        const updatedEmployee = await Employee.findByIdAndUpdate({_id : id} , {
+            maritalStatus ,
+            designation , 
+            department , 
+            salary
+        })
+
+        if(!updatedEmployee || !updatedUser){
+            return res.status(404).json({success : false , error:"not found the user "})
+        }
+        
+        return res.status(200).json({success : true , error:"nemployee updated successfully"})
+
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json("internal server error ")       
+    }
+}
+module.exports = {addEmployee , upload , getEmployees , getEmployee , editEmployee}
