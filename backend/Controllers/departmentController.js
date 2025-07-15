@@ -22,8 +22,8 @@ const getDepts = async(req,res)=>{
       const departments = await Department.find();
       return res.status(200).json({success:true , departments})
    } catch (error) {
-      return res.status(500).json("internal server error ")
       console.log(error)
+      return res.status(500).json("internal server error ")
    }
 }
 

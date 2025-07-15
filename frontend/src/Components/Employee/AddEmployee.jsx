@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import  {fetchDept} from '../../Utils/EmployeeHelper'
-
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 
 const AddEmployee = () => {
       const [departments , setDepartments] = useState([])
@@ -19,22 +20,24 @@ const AddEmployee = () => {
             image: null,
     });
   
-
+    const navigate = useNavigate()
     //fetching the department to select
     useEffect(()=>{
 
         const getDepartments = async()=>{
             const dep = await fetchDept()      
-            setDepartments(dep) 
-        }
-        getDepartments()
+            setDepartments(dep)
+          }
+          getDepartments()
+          
     },[])
-
+    
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'image') {
         setFormData({ ...formData, [name]: files[0] });
-        } else {
+        }
+        else {
         setFormData({ ...formData, [name]: value });
         }
     };
@@ -42,25 +45,24 @@ const AddEmployee = () => {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         const formDataObject = new FormData();
-        Object.key(formData).forEach( key =>{
+        Object.keys(formData).forEach( key => {
             formDataObject.append(key , formData[key])
         })
+        console.log(formDataObject)
         try {
-            const response = await fetch("http://localhost:5000/api/employee/add" , {
+            const response = await fetch("http://localhost:5000/api/employee/" , {
                 method : "POST" , 
                 headers : {
-                    'Content-Type' : 'application/json',
                     'Authorization' : `Bearer ${localStorage.getItem('token')}` 
                 },
-                body : JSON.stringify({
-                    formDataObject 
-                })
+                body : formDataObject 
+                
             })
 
             const data = await response.json() ;
             if(data.success){
-            toast.success("employee added successfully")
-            navigate("/admin-dashboard/employees")
+              toast.success("employee added successfully")
+              navigate("/admin-dashboard/employees")
             }else{
                 toast.error("something went wrong please try again")
             }
@@ -127,7 +129,7 @@ const AddEmployee = () => {
             className="w-full border rounded-md p-2">
             <option value="">Select Department</option>
             {departments.map(dep => (
-                <option key ={dep._id}>{dep.dep_name}</option>
+                <option key ={dep._id} value={dep._id}>{dep.dep_name}</option>
             ))}
           </select>
         </div>
