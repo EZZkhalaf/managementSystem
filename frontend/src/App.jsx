@@ -14,6 +14,8 @@ import AdminSummary from "./Components/Dashboard/AdminSummary";
 import DepartmentsList from "./Components/Departments/DepartmentsList";
 import AddDepartment from "./Components/Departments/AddDepartment";
 import EditDepartment from "./Components/Departments/EditDepartment";
+import EmployeeList from "./Components/Employee/EmployeeList";
+import AddEmployee from "./Components/Employee/AddEmployee";
 
 const App = () =>{
 
@@ -36,6 +38,10 @@ const App = () =>{
               <Route path="/admin-dashboard/departments" element = {<DepartmentsList />}></Route>
               <Route path="/admin-dashboard/add-department" element = {<AddDepartment />}></Route>
               <Route path="/admin-dashboard/department/:id" element = {<EditDepartment />}></Route>
+
+
+              <Route path="/admin-dashboard/employees" element = {<EmployeeList />}></Route>
+              <Route path="/admin-dashboard/add-employee" element = {<AddEmployee />}></Route>
             </Route>
           <Route path="/employee-dashboard" element = {
             <PrivateRoutes>

@@ -26,7 +26,7 @@ if(!user) return null
         <AdminSidebar />
         <div className="flex-grow p-6">
           {/* Main content here */}
-          <h1 className="text-2xl font-semibold">Welcome to the Admin Dashboard</h1>
+          <h1 className="text-2xl font-semibold">the Admin Dashboard</h1>
           {/* <AdminSummary /> */}
           <Outlet />
         </div>

@@ -9,14 +9,15 @@ import { toast } from 'react-toastify'
 
 const DepartmentsList = () => {
     const [departments , setDepartments] = useState([])
-
-
+    const [newName , setNewName] = useState("")
+    const [secondDep , setSecondDep] = useState([])
     //for updating the dep list after the deletion 
     const onDepartmentDelete = async(id) => {
       const dep = departments.filter(d => d._id !== id)
       setDepartments(dep)
     }
 
+    //fetching all departments
     useEffect(() => {
       const fetchDept = async () => {
         try {
@@ -38,6 +39,7 @@ const DepartmentsList = () => {
             }));
 
             setDepartments(data);
+            setSecondDep(data)
           } else {
             toast.error("Failed to fetch departments");
           }
@@ -50,6 +52,21 @@ const DepartmentsList = () => {
 
       fetchDept();
     }, []);
+
+    
+
+    useEffect(()=>{
+      
+        if (newName.trim().length === 0) {
+          setDepartments(secondDep); 
+        } else {
+          const filteredDepts = secondDep.filter(dep =>
+            dep.dep_name.toLowerCase().includes(newName.toLowerCase()) 
+          );
+          setDepartments(filteredDepts);
+        }
+      
+    },[newName])
     return (
         <>{}
        <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-4xl mx-auto">
@@ -66,7 +83,9 @@ const DepartmentsList = () => {
             <input
                 type="text"
                 placeholder="Search by name"
+                value={newName}
                 className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => setNewName(e.target.value)}
             />
 
             {/* Add Button */}

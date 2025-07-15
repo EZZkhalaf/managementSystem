@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const AddDepartment = () => {
 
+    const navigate = useNavigate()
     const [department , setDepartment] = useState({
         dep_name : '' ,
         description : ''
@@ -29,8 +31,13 @@ const AddDepartment = () => {
           })
 
           const data = await response.json() ;
-          console.log(data)
-          
+          if(data.success){
+            toast.success("department created successfully")
+            navigate("/admin-dashboard/departments")
+          }else{
+            toast.error("something went wrong please try again")
+          }
+        
         } catch (error) {
             toast.error("something went wrong ...")
             console.log(error)
