@@ -1,4 +1,5 @@
 const Department = require("../model/Department");
+const Employee = require("../model/Employee");
 
 
 const addDept = async(req,res) =>{
@@ -77,4 +78,15 @@ const deleteDepartment = async(req,res)=>{
       return res.status(500).json({success : false , error:"internal server error "})
    }
 }
-module.exports = {addDept , getDepts , getDept , editDepartment , deleteDepartment}
+
+const getDepartmentEmployees = async(req,res) =>{
+   const {id} = req.params; //deptId
+   try {
+      const employees = await Employee.find({department : id}).populate("userId")
+      return res.status(200).json({success : true , employees})
+   } catch (error) {
+      console.log(error)
+      return res.status(500).json({success : false , error:"internal server error "})     
+   }
+}
+module.exports = {addDept , getDepts , getDept , editDepartment , deleteDepartment , getDepartmentEmployees}

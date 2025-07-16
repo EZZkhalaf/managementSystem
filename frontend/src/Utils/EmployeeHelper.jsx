@@ -144,13 +144,14 @@ export const EmployeesButtons = ({_id}) =>{
         </button>
 
         <button
-        onClick={() => navigate(`/admin-dashboard/employees/edit/${_id}`)}
+            onClick={() => navigate(`/admin-dashboard/employees/edit/${_id}`)}
             className="px-4 py-1 min-w-[70px] bg-blue-600 text-white rounded hover:bg-blue-700 transition whitespace-nowrap"
         >
             Edit
         </button>
 
         <button
+            onClick={() => navigate(`/admin-dashboard/employees/salary/${_id}`)}
             className="px-4 py-1 min-w-[70px] bg-yellow-500 text-white rounded hover:bg-yellow-600 transition whitespace-nowrap"
         >
             Salary
