@@ -16,6 +16,8 @@ import AddDepartment from "./Components/Departments/AddDepartment";
 import EditDepartment from "./Components/Departments/EditDepartment";
 import EmployeeList from "./Components/Employee/EmployeeList";
 import AddEmployee from "./Components/Employee/AddEmployee";
+import EmployeeInfo from "./Components/Employee/EmployeeInfo";
+import EditEmployee from "./Components/Employee/EditEmployee";
 
 const App = () =>{
 
@@ -41,6 +43,8 @@ const App = () =>{
 
 
               <Route path="/admin-dashboard/employees" element = {<EmployeeList />}></Route>
+              <Route path="/admin-dashboard/employees/:id" element = {<EmployeeInfo />}></Route>
+              <Route path="/admin-dashboard/employees/edit/:id" element = {<EditEmployee />}></Route>
               <Route path="/admin-dashboard/add-employee" element = {<AddEmployee />}></Route>
             </Route>
           <Route path="/employee-dashboard" element = {
