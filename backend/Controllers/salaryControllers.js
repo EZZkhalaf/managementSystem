@@ -1,3 +1,4 @@
+const Employee = require('../model/Employee');
 const Salary = require('../model/Salary')
 
 const addSalary = async(req,res) => {
@@ -20,9 +21,23 @@ const addSalary = async(req,res) => {
          return res.status(200).json({success : true});
     } catch (error) {
         console.log(error)
-         return res.status(500).json({success : false , error:"cannot add salary to server"});
-        
+         return res.status(500).json({success : false , error:"cannot add salary to server"});       
     }
 }
 
-module.exports = {addSalary}
+
+const getEmployeeSalaries = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const employeeExist = await Employee.findById(id);
+        if(!employeeExist) return res.status(404).json({success : false , error:"no employee found"})
+
+        const salaries = await Salary.find({employeeId : id}).populate("employeeId" , "employeeId")
+
+        return res.status(200).json({success:true , salaries})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({success : false , error:"cannot get the employee salaries from server"});        
+    }
+}
+module.exports = {addSalary , getEmployeeSalaries}

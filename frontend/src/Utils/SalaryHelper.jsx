@@ -64,3 +64,27 @@ export const fetchDept = async () => {
     return departments
 };
 
+export const fetchEmpSalaries = async(id) =>{
+    let salary;
+    try {
+        const response = await fetch(`http://localhost:5000/api/salary/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+        const resData = await response.json();
+        if (resData.success) {
+        
+            salary = resData.salaries
+
+        
+        } else {
+        toast.error("Failed to fetch salaries");
+        }
+    } catch (error) {
+        console.error(error);
+        toast.error("Something went wrong");        
+    }
+    return salary
+}
