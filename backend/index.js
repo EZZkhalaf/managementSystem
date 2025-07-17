@@ -6,8 +6,10 @@ const authRouter = require('./Routes/auth.js')
 const departmentRouter = require("./Routes/departments.js")
 const employeeRouter = require("./Routes/employees.js")
 const salaryRouter = require("./Routes/salary.js")
-dotenv.config();
+const leavesRouter = require("./Routes/leaves.js");
 
+
+dotenv.config();
 
 connection();
 
@@ -24,7 +26,7 @@ app.use("/api/auth" , authRouter)
 app.use("/api/department" , departmentRouter)
 app.use("/api/employee" , employeeRouter)
 app.use("/api/salary" , salaryRouter)
-
+app.use("/api/leave" ,leavesRouter)
 
 
 app.listen(process.env.PORT , () =>{

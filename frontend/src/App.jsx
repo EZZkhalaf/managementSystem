@@ -22,6 +22,7 @@ import AddSalary from "./Components/Salary/AddSalary";
 import ListSalary from "./Components/Salary/ListSalary";
 import EmployeeSummary from "./Components/EmployeeDash/EmployeeSummary";
 import ListLeaves from "./Components/Leave/ListLeaves";
+import AddLeave from "./Components/Leave/AddLeave";
 
 const App = () =>{
 
@@ -65,6 +66,7 @@ const App = () =>{
               <Route index element= {<EmployeeSummary/>}></Route>
               <Route path="/employee-dashboard/profile/:id" element= {<EmployeeInfo/>}></Route>
               <Route path="/employee-dashboard/leaves/" element= {<ListLeaves/>}></Route>
+              <Route path="/employee-dashboard/leaves/add-leave" element= {<AddLeave/>}></Route>
 
 
             </Route>
