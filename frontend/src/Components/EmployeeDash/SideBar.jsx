@@ -1,0 +1,76 @@
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import {
+  FaBuilding,
+  FaTachometerAlt,
+  FaUsers,
+  FaCalendarAlt,
+  FaMoneyBill,
+  FaCogs,
+} from 'react-icons/fa';
+import { useAuthContext } from '../../Context/authContext';
+
+const navLinkStyles =
+  'flex items-center gap-3 text-white px-4 py-2 rounded-lg transition-colors duration-200 hover:bg-blue-700';
+
+const activeLinkStyles = 'bg-blue-700';
+
+
+const SideBar = () => {
+  const {user} = useAuthContext();
+  return (
+        <div className="w-64 bg-blue-800 min-h-screen text-white p-4">
+      <h3 className="text-2xl font-bold mb-8 text-center">Employee MS</h3>
+      <nav className="flex flex-col gap-2">
+        <NavLink
+          to="/employee-dashboard"
+          className={({ isActive }) =>
+            `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
+          }
+        >
+          <FaTachometerAlt />
+          <span>Dashboard</span>
+        </NavLink>
+        <NavLink
+          to={`/employee-dashboard/profile/${user.user._id}`}
+          className={({ isActive }) =>
+            `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
+          }
+        >
+          <FaUsers />
+          <span>My Profile</span>
+        </NavLink>
+        <NavLink
+          to="/employee-dashboard/leaves/"
+          className={({ isActive }) =>
+            `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
+          }
+        >
+          <FaBuilding />
+          <span>leaves</span>
+        </NavLink>
+        <NavLink
+          to="/employee-dashboard/salary"
+          className={({ isActive }) =>
+            `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
+          }
+        >
+          <FaCalendarAlt />
+          <span>salary</span>
+        </NavLink>
+
+        <NavLink
+          to="/eemployee-settings/settings"
+          className={({ isActive }) =>
+            `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
+          }
+        >
+          <FaCogs />
+          <span>Settings</span>
+        </NavLink>
+      </nav>
+    </div>
+  )
+}
+
+export default SideBar
