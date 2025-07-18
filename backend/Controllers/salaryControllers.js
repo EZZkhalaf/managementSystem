@@ -29,11 +29,14 @@ const addSalary = async(req,res) => {
 const getEmployeeSalaries = async(req,res)=>{
     try {
         const {id} = req.params;
-        const employeeExist = await Employee.findById(id);
-        if(!employeeExist) return res.status(404).json({success : false , error:"no employee found"})
-
-        const salaries = await Salary.find({employeeId : id}).populate("employeeId" , "employeeId")
-
+        let salaries;
+        salaries = await Salary.find({employeeId : id}).populate("employeeId" , "employeeId")
+        
+        if(!salaries || salaries.length < 1){
+            const emp2 = await Employee.findOne({userId : id});
+            salaries = await Salary.find({employeeId : emp2._id}).populate("employeeId" , "employeeId")
+        }
+        console.log(salaries)
         return res.status(200).json({success:true , salaries})
     } catch (error) {
         console.log(error)

@@ -50,13 +50,13 @@ const SideBar = () => {
           <span>leaves</span>
         </NavLink>
         <NavLink
-          to="/employee-dashboard/salary"
+          to={`/employee-dashboard/salary/${user.user._id}`}
           className={({ isActive }) =>
             `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
           }
         >
           <FaCalendarAlt />
-          <span>salary</span>
+          <span>Salary</span>
         </NavLink>
 
         <NavLink

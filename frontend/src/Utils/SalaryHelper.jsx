@@ -74,6 +74,7 @@ export const fetchEmpSalaries = async(id) =>{
         })
 
         const resData = await response.json();
+        console.log(resData)
         if (resData.success) {
         
             salary = resData.salaries

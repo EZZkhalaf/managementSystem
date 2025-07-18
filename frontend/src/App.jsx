@@ -69,6 +69,9 @@ const App = () =>{
               <Route path="/employee-dashboard/leaves/add-leave" element= {<AddLeave/>}></Route>
 
 
+              <Route path="/employee-dashboard/salary/:id" element= {<ListSalary/>}></Route>
+
+
             </Route>
         </Routes>
       {/* </BrowserRouter> */}
