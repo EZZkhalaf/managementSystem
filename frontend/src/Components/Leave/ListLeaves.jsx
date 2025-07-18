@@ -1,29 +1,52 @@
 import React , {useEffect, useState} from 'react'
-// import { useNavigate } from 'react-router-dom';
-import { fetchLeaves } from '../../Utils/LeavesHelper';
+import { columns, fetchLeaves } from '../../Utils/LeavesHelper';
 import DataTable from 'react-data-table-component';
-import { useNavigate } from 'react-router-dom';
+import { useAsyncValue, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../Context/authContext';
 
 const ListLeaves = () => {
+  const {user} = useAuthContext();
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('All');
     const [leaves , setLeaves ] = useState([]);
     const navigate = useNavigate();
-  // const filteredLeaves = leaves.filter(
-  //   (leave) =>
-  //     leave.name.toLowerCase().includes(search.toLowerCase()) &&
-  //     (filter === 'All' || leave.status === filter)
-  // );
 
 
   const fetchLeavesHook = async()=>{
-    const data = await fetchLeaves();
+    const data = await fetchLeaves(user.user._id);
     setLeaves(data);
   }
 
   useEffect(()=>{
     fetchLeavesHook();
   },[])
+
+  
+const customStyles = {
+  headCells: {
+    style: {
+      backgroundColor: '#f0f0f0',
+      fontWeight: 'bold',
+      fontSize: '14px',
+      color: '#333',
+    },
+  },
+  rows: {
+    style: {
+      fontSize: '14px',
+      minHeight: '60px', // override the row height
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: '8px',
+      paddingRight: '8px',
+    },
+  },
+};
+
+
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-6">
@@ -51,7 +74,13 @@ const ListLeaves = () => {
             </button>
           </div>
         </div>
-        <DataTable />
+        <DataTable
+                columns={columns()}
+                data={leaves}
+                responsive
+                pagination
+                // customStyles={customStyles}
+            />
         </div>
     </div>
   );

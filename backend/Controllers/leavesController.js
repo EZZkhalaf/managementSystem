@@ -1,5 +1,5 @@
 const Leaves = require("../model/Leaves");
-
+const Employee = require('../model/Employee');
 
 const addLeave = async(req,res)=>{
     try {
@@ -11,8 +11,11 @@ const addLeave = async(req,res)=>{
                 error: "All fields (userId, leaveType, startDate, toDate, reason) are required.",
             });
         }
+        const employeeExists = await Employee.findOne({userId});
+        if(!employeeExists)
+            return res.status(404).json({success : false , error:"employee not found ."})
         const newLeave = new Leaves({
-            employeeId : userId ,
+            employeeId : employeeExists._id ,
             leaveType ,
             startDate ,
             endDate : toDate ,
@@ -29,4 +32,28 @@ const addLeave = async(req,res)=>{
     }
 }
 
-module.exports = {addLeave};
+const getEmployeeLeaves = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const employee = await Employee.findOne({userId : id});
+        if(!employee)
+            return res.status(404).json({success : false , error:"employee not found :("})
+
+        const leaves = await Leaves.find({employeeId : employee._id})
+                                        .populate({
+                                            path : 'employeeId',
+                                            populate :[
+                                                {path : 'department'},
+                                                {path : 'userId' , select : '-password'}
+                                            ]
+                                        })
+        
+        
+        return res.status(200).json({success : true , leaves});
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({success : false , error:"cannot get the employee salaries from server"});        
+    }
+}
+
+module.exports = {addLeave,getEmployeeLeaves};

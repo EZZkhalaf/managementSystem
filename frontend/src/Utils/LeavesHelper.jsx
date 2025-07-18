@@ -19,13 +19,13 @@ export const columns = () => [
   },
   {
     name: "From",
-    selector: row => row.name,
-    grow: 2,
+    selector: row => row.fromDate, // fixed
+    grow: 1,
     wrap: true,
   },
   {
     name: "To",
-    selector: row => row.leaveType,
+    selector: row => row.endDate, // fixed
     grow: 1,
     wrap: true,
   },
@@ -36,9 +36,9 @@ export const columns = () => [
     wrap: true,
   },
   {
-    name: "Applied Date",
+    name: "Applied ",
     selector: row => row.AppliedDate,
-    width: "80px",
+    width: "100px",
     center: true,
     wrap: true,
   },
@@ -48,14 +48,9 @@ export const columns = () => [
     width: "100px",
     center: true,
     wrap: true,
-  },
-  {
-    name: "Action",
-    cell: row => <LeavesButton Id={row._id} />,
-    grow: 2,
-    wrap: true,
   }
 ];
+
 
 
 export const LeavesButton = ({_id}) =>{
@@ -101,9 +96,9 @@ export const addLeave = async (formdata , navigate) => {
     }
 };
 
-export const fetchLeaves = async () => {
+export const fetchLeaves = async (id) => {
     try {
-        const response = await fetch("http://localhost:5000/api/leaves", {
+        const response = await fetch(`http://localhost:5000/api/leave/${id}`, {
             method : "GET" ,
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('token')}`
@@ -111,19 +106,26 @@ export const fetchLeaves = async () => {
         });
 
         const resData = await response.json();
+        console.log(resData)
         if (resData.success) {
             let sno = 1;
-            const data = await response.data.leaves.map((leave) => ({
-                _id: leave._id,
-                sno: sno++,
-                employeeId: leave.employeeId.employeeid,
-                name: leave.employeeId.userId.name,
-                leaveType: leave.leaveType,
-                department: leave.employeeId.department.name,
-                days: new Date(leave.endDate).getDate() - new Date(leave.startDate).getDate(),
-                status: leave.status,
-                action: <LeavesButton Id={leave._id} />,
+            const data = resData.leaves.map((leave) => ({
+              _id: leave._id,
+              sno: sno++,
+              employeeId: leave.employeeId._id,
+              name: leave.employeeId.userId.name,
+              leaveType: leave.leaveType,
+              department: leave.employeeId.department.dep_name,
+              fromDate: new Date(leave.startDate).toLocaleDateString(), // Show "From" date
+              endDate: new Date(leave.endDate).toLocaleDateString(),     // Show "To" date
+              AppliedDate: new Date(leave.createdAt).toLocaleDateString(), // Show applied date
+              days:
+                (new Date(leave.endDate) - new Date(leave.startDate)) / (1000 * 60 * 60 * 24) + 1, // Total days inclusive
+              description: leave.reason,
+              status: leave.status,
+              action: <LeavesButton Id={leave._id} />,
             }));
+
             return data
         } else {
         toast.error("Failed to fetch departments");

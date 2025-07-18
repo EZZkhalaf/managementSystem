@@ -1,12 +1,13 @@
 const express = require("express");
 const verifyUser = require("../Middlewares/authMiddleware");
-const { addLeave } = require("../Controllers/leavesController");
+const { addLeave, getEmployeeLeaves } = require("../Controllers/leavesController");
 
 
 const router = express.Router() ;
 
 
 router.post('/add' , verifyUser, addLeave);
+router.get('/:id' , verifyUser, getEmployeeLeaves);
 
 
 // router.post('/' , verifyUser, addSalary)
