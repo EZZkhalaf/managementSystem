@@ -18,7 +18,6 @@ const EmployeeInfo = () => {
         });
 
         const data = await response.json();
-        console.log(data)
         if (data.success) {
           const emp = data.employee;
           setEmployee({

@@ -56,4 +56,75 @@ const getEmployeeLeaves = async(req,res)=>{
     }
 }
 
-module.exports = {addLeave,getEmployeeLeaves};
+const getLeaves = async(req,res)=>{
+    try {
+        const leaves = await Leaves.find().populate({
+            path : 'employeeId' , 
+            populate : [
+                {path : 'department' , select : 'dep_name'},
+                {path : 'userId' , select : "name"}
+            ]
+        })
+
+        return res.status(200).json({success : true , leaves})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({success : false , error:"cannot get the employee salaries from server"});        
+    }
+}
+
+const getLeave = async(req,res)=>{
+    try {
+        const {id} = req.params;
+
+        const leave = await Leaves.findOne({_id : id}).populate({
+            path : 'employeeId' , 
+            populate : [
+                {path : 'department' , select : 'dep_name'},
+                {path : 'userId' , select : "name , profileImage"}
+            ]
+        })
+
+        if(!leave) 
+            return res.status(404).json({success:false , error:"leave details not found :("})
+
+        return res.status(200).json({success : true , leave})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({success : false , error:"cannot get the leave details from server"});        
+    }
+}
+
+
+const changeLeaveStatus = async (req, res) => {
+  const { status } = req.body;
+  const { id } = req.params;
+
+  // Basic input validation
+  if (!status || !["Approved", "Rejected", "Pending"].includes(status)) {
+    return res.status(400).json({ success: false, error: "Invalid status value." });
+  }
+
+  try {
+    const updatedLeave = await Leaves.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true } // return the updated document
+    );
+
+    if (!updatedLeave) {
+      return res.status(404).json({ success: false, error: "Leave record not found." });
+    }
+
+    return res.status(200).json({ success: true, leave: updatedLeave });
+  } catch (error) {
+    console.error("Change leave status error:", error);
+    return res.status(500).json({
+      success: false,
+      error: "An error occurred while updating the leave status.",
+    });
+  }
+};
+
+
+module.exports = {addLeave,getEmployeeLeaves , getLeaves , getLeave ,changeLeaveStatus };

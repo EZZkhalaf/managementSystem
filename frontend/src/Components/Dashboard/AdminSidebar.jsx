@@ -46,7 +46,7 @@ const AdminSidebar = () => {
           <span>Departments</span>
         </NavLink>
         <NavLink
-          to="/admin-leaves"
+          to="/admin-dashboard/leaves"
           className={({ isActive }) =>
             `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
           }
