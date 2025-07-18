@@ -7,6 +7,7 @@ const departmentRouter = require("./Routes/departments.js")
 const employeeRouter = require("./Routes/employees.js")
 const salaryRouter = require("./Routes/salary.js")
 const leavesRouter = require("./Routes/leaves.js");
+const settingsRouter = require("./Routes/settings.js")
 
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/department" , departmentRouter)
 app.use("/api/employee" , employeeRouter)
 app.use("/api/salary" , salaryRouter)
 app.use("/api/leave" ,leavesRouter)
+app.use("/api/settings" ,settingsRouter)
 
 
 app.listen(process.env.PORT , () =>{

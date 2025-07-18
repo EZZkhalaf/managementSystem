@@ -20,7 +20,6 @@ const EditDepartment = () => {
           });
   
           const data = await response.json();
-          console.log(data)
           setDepartment(data.department);
           
   

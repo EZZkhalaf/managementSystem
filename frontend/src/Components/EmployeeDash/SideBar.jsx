@@ -60,7 +60,7 @@ const SideBar = () => {
         </NavLink>
 
         <NavLink
-          to="/eemployee-settings/settings"
+          to="/employee-dashboard/settings"
           className={({ isActive }) =>
             `${navLinkStyles} ${isActive ? activeLinkStyles : ''}`
           }
