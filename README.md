@@ -5,30 +5,35 @@ A complete **Employee Management System** built with the MERN stack. The system 
 ---
 
 ## 📁 Project Structure
+
 .
 ├── backend
 │ ├── Controllers # Express route handlers (logic)
 │ ├── database # MongoDB connection setup
 │ ├── Middlewares # JWT auth, error handling
 │ ├── model # Mongoose schemas (User, Employee, Leave, etc.)
-│ ├── public\uploads # File upload folder (e.g., profile images)
+│ ├── public
+│ │ └── uploads # File upload folder (e.g., profile images)
 │ ├── Routes # Express route definitions
 │ ├── .env # Environment variables
 │ ├── index.js # Entry point for backend server
 │ └── package.json
 │
 ├── frontend
-│ ├── public
+│ ├── public # Static assets
 │ ├── src
-│ │ ├── assets # Images, logos, static assets
+│ │ ├── assets # Images, logos, etc.
 │ │ ├── Components # Reusable UI components
-│ │ ├── Context # React context (Auth, Global State)
-│ │ ├── Pages # Page-level components (Dashboard, Login, etc.)
-│ │ └── Utils # API calls, helpers
+│ │ ├── Context # React context for state management
+│ │ ├── Pages # Route-based views (Dashboard, Login, etc.)
+│ │ └── Utils # Helper functions & API calls
 │ ├── App.jsx # Root component
 │ ├── App.css
 │ ├── index.css
 │ └── package.json
+
+
+
 
 
 ---
