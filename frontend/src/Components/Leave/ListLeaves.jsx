@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react'
 import { columns, fetchLeaves } from '../../Utils/LeavesHelper';
 import DataTable from 'react-data-table-component';
-import { useAsyncValue, useNavigate } from 'react-router-dom';
+import { useAsyncValue, useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../../Context/authContext';
 
 const ListLeaves = () => {
@@ -10,12 +10,15 @@ const ListLeaves = () => {
     const [filter, setFilter] = useState('All');
     const [leaves , setLeaves ] = useState([]);
     const navigate = useNavigate();
+    
+const { id: empId } = useParams(); // ✅ destructure param properly
+const id = user.user.role === "admin" ? empId : user.user._id;
 
-
-  const fetchLeavesHook = async()=>{
-    const data = await fetchLeaves(user.user._id);
-    setLeaves(data);
-  }
+const fetchLeavesHook = async () => {
+  console.log("ID used:", id); // should now show correct string
+  const data = await fetchLeaves({id});
+  setLeaves(data);
+};
 
   useEffect(()=>{
     fetchLeavesHook();

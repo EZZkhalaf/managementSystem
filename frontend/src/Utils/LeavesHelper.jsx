@@ -221,8 +221,9 @@ export const addLeave = async (formdata , navigate) => {
     }
 };
 
-export const fetchLeaves = async (id) => {
+export const fetchLeaves = async ({id}) => {
     try {
+      console.log(id)
         const response = await fetch(`http://localhost:5000/api/leave/${id}`, {
             method : "GET" ,
             headers: {
@@ -252,7 +253,7 @@ export const fetchLeaves = async (id) => {
 
             return data
         } else {
-        toast.error("Failed to fetch departments");
+        toast.error(resData.error);
         }
 
     } catch (error) {

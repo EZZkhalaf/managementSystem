@@ -84,14 +84,14 @@ export const columns = () => [
   {
     name: "S No",
     selector: row => row.sno,
-    width: "60px",
+    width: "5vw",  // ≈ small fixed
     center: true,
     wrap: true,
   },
   {
     name: "Name",
     selector: row => row.name,
-    grow: 2,
+    width: "12vw", // narrower than before
     wrap: true,
   },
   {
@@ -100,10 +100,10 @@ export const columns = () => [
       <img
         src={`http://localhost:5000/${row.profileImage}`}
         alt="Profile"
-        className="w-10 h-10 rounded-full object-cover"
+        className="w-8 h-8 rounded-full object-cover"
       />
     ),
-    width: "80px",
+    width: "6vw", // tighter image column
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
@@ -111,19 +111,19 @@ export const columns = () => [
   {
     name: "Department",
     selector: row => row.department?.dep_name,
-    grow: 2,
+    width: "12vw",
     wrap: true,
   },
   {
     name: "DOB",
     selector: row => row.dob,
-    grow: 1,
+    width: "9vw",
     wrap: true,
   },
   {
     name: "Action",
     cell: row => <EmployeesButtons _id={row._id} />,
-    grow: 2,
+    width: "18vw", // Enough for 4 small buttons
     wrap: true,
   }
 ];
@@ -132,33 +132,40 @@ export const columns = () => [
 
 
 
-export const EmployeesButtons = ({_id}) =>{
-    const navigate = useNavigate()
-    return (
-        <div className="flex gap-2 w-fit justify-center items-center">
-        <button
-            onClick={() => navigate(`/admin-dashboard/employees/${_id}`)}
-            className="px-4 py-1 min-w-[70px] bg-gray-500 text-white rounded hover:bg-gray-600 transition whitespace-nowrap"
-        >
-            View
-        </button>
 
-        <button
-            onClick={() => navigate(`/admin-dashboard/employees/edit/${_id}`)}
-            className="px-4 py-1 min-w-[70px] bg-blue-600 text-white rounded hover:bg-blue-700 transition whitespace-nowrap"
-        >
-            Edit
-        </button>
+export const EmployeesButtons = ({ _id }) => {
+  const navigate = useNavigate();
+  return (
+    <div className="flex gap-1 justify-center items-center whitespace-nowrap overflow-hidden">
+      <button
+        onClick={() => navigate(`/admin-dashboard/employees/${_id}`)}
+        className="px-2 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition whitespace-nowrap min-w-[45px]"
+      >
+        View
+      </button>
 
-        <button
-            onClick={() => navigate(`/admin-dashboard/employees/salary/${_id}`)}
-            className="px-4 py-1 min-w-[70px] bg-yellow-500 text-white rounded hover:bg-yellow-600 transition whitespace-nowrap"
-        >
-            Salary
-        </button>
-        </div>
+      <button
+        onClick={() => navigate(`/admin-dashboard/employees/edit/${_id}`)}
+        className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition whitespace-nowrap min-w-[45px]"
+      >
+        Edit
+      </button>
 
+      <button
+        onClick={() => navigate(`/admin-dashboard/employees/salary/${_id}`)}
+        className="px-2 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 transition whitespace-nowrap min-w-[45px]"
+      >
+        Salary
+      </button>
 
-    )
-}
+      <button
+        onClick={() => navigate(`/admin-dashboard/employees/leaves/${_id}`)}
+        className="px-2 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition whitespace-nowrap min-w-[45px]"
+      >
+        Leaves
+      </button>
+    </div>
+  );
+};
+
 

@@ -35,18 +35,29 @@ const addLeave = async(req,res)=>{
 const getEmployeeLeaves = async(req,res)=>{
     try {
         const {id} = req.params;
+        console.log("ssssssssssssssssssssss",id)
+        let leaves;
         const employee = await Employee.findOne({userId : id});
-        if(!employee)
-            return res.status(404).json({success : false , error:"employee not found :("})
-
-        const leaves = await Leaves.find({employeeId : employee._id})
-                                        .populate({
-                                            path : 'employeeId',
-                                            populate :[
-                                                {path : 'department'},
-                                                {path : 'userId' , select : '-password'}
-                                            ]
-                                        })
+        if (employee) {
+        // Found employee, query leaves by their ObjectId
+        leaves = await Leaves.find({ employeeId: employee._id }).populate({
+            path: 'employeeId',
+            populate: [
+            { path: 'department' },
+            { path: 'userId', select: '-password' },
+            ],
+        });
+        } else {
+        // No employee found by userId — maybe id is already employeeId
+        leaves = await Leaves.find({ employeeId: id }).populate({
+            path: 'employeeId',
+            populate: [
+            { path: 'department' },
+            { path: 'userId', select: '-password' },
+            ],
+        });
+        }
+            // return res.status(404).json({success : false , error:"employee not found :("})
         
         
         return res.status(200).json({success : true , leaves});

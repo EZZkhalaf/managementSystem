@@ -60,14 +60,16 @@ const EmployeeList = () => {
         pagination
         />
          */}
-         <div className="overflow-x-auto w-full">
-            <DataTable
-                columns={columns()}
-                data={filteredEmployees}
-                responsive
-                pagination
-            />
-        </div>
+<div className="p-6 bg-white rounded shadow-md w-full overflow-x-auto">
+  <div className="min-w-[900px]">
+    <DataTable
+      columns={columns()}
+      data={filteredEmployees}
+      responsive
+      pagination
+    />
+  </div>
+</div>
 
     </div>
   );
