@@ -1,125 +1,99 @@
-🧑‍💼 Employee Management System
-A modern web-based Employee Management System with role-based access for Admins and Employees. This application helps organizations manage employee records, salaries, departments, and leave requests efficiently.
+# 🧑‍💼 Employee Management System
 
-🚀 Features
-🔐 Authentication
-JWT-based secure login
+A complete **Employee Management System** built with the MERN stack. The system supports **Admins** and **Employees**, with features like leave requests, salary management, department handling, and profile updates.
 
-Role-based access (Admin & Employee)
+---
 
-👨‍💼 Admin Panel
-Manage employees: Add, edit, delete
+## 📁 Project Structure
+.
+├── backend
+│ ├── Controllers # Express route handlers (logic)
+│ ├── database # MongoDB connection setup
+│ ├── Middlewares # JWT auth, error handling
+│ ├── model # Mongoose schemas (User, Employee, Leave, etc.)
+│ ├── public\uploads # File upload folder (e.g., profile images)
+│ ├── Routes # Express route definitions
+│ ├── .env # Environment variables
+│ ├── index.js # Entry point for backend server
+│ └── package.json
+│
+├── frontend
+│ ├── public
+│ ├── src
+│ │ ├── assets # Images, logos, static assets
+│ │ ├── Components # Reusable UI components
+│ │ ├── Context # React context (Auth, Global State)
+│ │ ├── Pages # Page-level components (Dashboard, Login, etc.)
+│ │ └── Utils # API calls, helpers
+│ ├── App.jsx # Root component
+│ ├── App.css
+│ ├── index.css
+│ └── package.json
 
-Manage departments
 
-View and approve/reject leave requests
+---
 
-Assign and update employee salaries
+## 🚀 Features
 
-Access detailed employee information
+### Admin
+- Add, update, and delete employees
+- Manage departments
+- Handle leave requests (approve/reject)
+- View employee details and salaries
 
-👷 Employee Panel
-View personal profile and salary details
+### Employee
+- Submit and track leave requests
+- View salary info and profile
+- Update personal details
 
-Submit leave requests
+---
 
-View leave history and approval status
+## 🛠 Tech Stack
 
-Edit personal information
+- **Frontend:** React, React Router, Tailwind CSS / Bootstrap, Toastify
+- **Backend:** Node.js, Express, MongoDB, Mongoose, JWT
+- **Others:** Multer for file uploads, Dotenv for config, Context API for state
 
-🛠️ Tech Stack
-Backend
-Node.js + Express.js – RESTful API
+---
 
-MongoDB with Mongoose – Database
+## ⚙️ Getting Started
 
-JWT – Authentication
+### 1. Clone the project
 
-Multer – File uploads (e.g., profile pictures or documents)
-
-Frontend
-React.js – Frontend framework
-
-React Router – Client-side routing
-
-Tailwind CSS / Bootstrap – UI styling
-
-React Toastify – Notifications
-
-📁 Project Structure
-bash
-Copy
-Edit
-/client         # React frontend
-/index.js
-/server         # Node.js backend
-├── models      # Mongoose schemas
-├── routes      # Express API routes
-├── controllers # API logic
-├── middleware  # Auth and error handling
-⚙️ Setup Guide
-1. Clone the repository
-bash
-Copy
-Edit
+```bash
 git clone https://github.com/your-username/employee-management-system.git
 cd employee-management-system
-2. Install dependencies
-Backend
-bash
-Copy
-Edit
-cd server
+```
+### 2. Backend Setup
+```bash
+cd backend
 npm install
-Frontend
-bash
-Copy
-Edit
-cd ../client
-npm install
-3. Set up environment variables
-Create a .env file inside /server:
-
-env
-Copy
-Edit
+```
+Create a .env file inside backend/:
+```bash 
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/employee_management
+MONGO_URI=mongodb://localhost:27017/employeedb
 JWT_SECRET=your_jwt_secret
-4. Run the application
-Start Backend
-bash
-Copy
-Edit
-cd server
+```
+Start backend server:
+```bash 
 npm run dev
-Start Frontend
-bash
-Copy
-Edit
-cd ../client
-npm start
-Visit: http://localhost:3000
+```
 
-🧪 Sample Credentials
-bash
-Copy
-Edit
-Admin Email: admin@example.com
-Admin Password: admin123
-You can create this user manually via MongoDB Compass or implement a seeding script.
+### 3. Frontend Setup
+```bash 
+cd ../frontend
+npm install
+npm run dev
+```
 
-✨ To-Do / Improvements
-PDF export for payslips or reports
+## 📋 Summary
 
-Email notifications for leave status
+This is a full-stack Employee Management System designed for organizations to manage employees, departments, salaries, and leave requests.
 
-Upload employee documents (contracts, ID, etc.)
+The system supports:
+- **Admins**, who can manage all employee-related data
+- **Employees**, who can view and manage their own profiles and leave requests
 
-Activity logging / audit trail
-
-Mobile responsiveness enhancements
-
-📄 License
-This project is licensed under the MIT License.
+It is built using the **MERN stack** (MongoDB, Express, React, Node.js) and follows a clean role-based access control system.
 
