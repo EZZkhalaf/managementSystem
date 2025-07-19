@@ -13,6 +13,8 @@ const Settings = () => {
     confirmPassword: ''
   });
 
+  const role = user.user.role;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPasswords({
@@ -27,7 +29,7 @@ const Settings = () => {
       alert('New password and confirm password do not match');
       return;
     }
-    await changePassword(passwords , navigate);
+    await changePassword(passwords , navigate , role);
   };
 
   return (

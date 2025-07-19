@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
-export const changePassword = async(passwords , navigate) =>{
+export const changePassword = async(passwords , navigate , role) =>{
     try {
         const response = await fetch(`http://localhost:5000/api/settings/change-password`, {
                     method : "post",
@@ -20,7 +20,10 @@ export const changePassword = async(passwords , navigate) =>{
         const resData = await response.json();
         if (resData.success) {
             toast.success("password changed successfully");
-            navigate("/employee-dashboard/");
+            if(role === 'admin')
+                navigate("/admin-dashboard/");
+            else 
+                navigate("/employee-dashboard/")
         } else {
             toast.error(resData.error);
         }

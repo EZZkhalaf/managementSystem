@@ -26,19 +26,23 @@ const EditEmployee = () => {
     //fetching the employee to esit
     const getEmployee = async()=>{
         const fatcat = await fetchEmployee(id)
+        // console.log(fatcat)
         setFormData({
             name: fatcat.employee.userId?.name || '',
             maritalStatus: fatcat.employee.maritalStatus || '',
             designation: fatcat.employee.designation || '',
+            salary: fatcat.employee.salary || ''  ,
             department: fatcat.employee.department?.dep_name || '',
-            depId : fatcat.employee.department?._id ||"",
-            salary: fatcat.employee.salary || ''            
+            depId : fatcat.employee.department?._id ||"",          
         });
 
     }
+
+
     const getDepartments = async()=>{
-            const dep = await fetchDept()      
+            const dep = await fetchDept()
             setDepartments(dep)
+            
         }
     useEffect(()=>{
 
@@ -53,6 +57,7 @@ const EditEmployee = () => {
         
     };
 
+    // console.log(formData)
     const handleSubmit = async(e) =>{
         e.preventDefault();
         console.log(formData)
@@ -67,13 +72,15 @@ const EditEmployee = () => {
                     name : formData.name ,
                     maritalStatus: formData.maritalStatus,
                     designation: formData.designation,
-                    department: formData.depId,
-                    salary: formData.salary
+                    department: formData.department,
+                    salary: formData.salary ,
+                    
                 }) 
                 
             })
 
             const data = await response.json();
+            console.log(data)
             if(data.success){
                 toast.success("updated the info successfully")
                 navigate("/admin-dashboard/employees")
@@ -165,7 +172,7 @@ return (
           >
             <option value="" disabled>Select Department</option>
             {departments.map((dept) => (
-              <option key={dept.id} value={dept.id}>
+              <option key={dept._id} value={dept._id}>
                 {dept.dep_name}
               </option>
             ))}

@@ -2,6 +2,8 @@ const Employee = require("../model/Employee")
 const bcrypt = require("bcrypt");
 const multer = require("multer")
 const User = require("../model/User");
+const mongoose = require('mongoose')
+
 
 const storage = multer.diskStorage({
     destination : (req,file,cb) => {
@@ -120,9 +122,7 @@ const getEmployee = async (req, res) => {
 
     // If not found, try finding by userId
     if (!employee) {
-      employee = await Employee.findOne({ userId: id })
-        .populate('department')
-        .populate('userId', { password: 0 });
+      employee = await Employee.findOne({ userId: id }).populate('department').populate('userId', { password: 0 });
 
       if (!employee) {
         return res.status(404).json({
@@ -131,6 +131,7 @@ const getEmployee = async (req, res) => {
         });
       }
     }
+    console.log(employee)
 
     // Success
     return res.status(200).json({
@@ -147,42 +148,49 @@ const getEmployee = async (req, res) => {
   }
 };
 
-const editEmployee = async(req,res)=>{
-    try {
-        const {id} = req.params;
-        const {name ,
-            maritalStatus,
-            designation,
-            department,
-            salary } = req.body;
+const editEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, maritalStatus, designation, department, salary  } = req.body;
 
-        const employee = await Employee.findById(id);
-        if(!employee) return res.status(404).json({success : false , error:"employee not found"})
-        
-        const user = await User.findById(employee.userId);
-        if(!user) return res.status(404).json({success : false , error:"user not found"})
+    console.log(department)
 
-        const updatedUser = await User.findByIdAndUpdate({_id :employee.userId} , {
-            name 
-        })
-
-        const updatedEmployee = await Employee.findByIdAndUpdate({_id : id} , {
-            maritalStatus ,
-            designation , 
-            department , 
-            salary
-        })
-
-        if(!updatedEmployee || !updatedUser){
-            return res.status(404).json({success : false , error:"not found the user "})
-        }
-        
-        return res.status(200).json({success : true , error:"nemployee updated successfully"})
-
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json("internal server error ")       
+    if (!id || !name || !maritalStatus || !designation || !department || !salary ) {
+      return res.status(400).json({ success: false, error: "Missing required fields" });
     }
-}
+    
+
+    const employee = await Employee.findById(id);
+    if (!employee) {
+      return res.status(404).json({ success: false, error: "Employee not found" });
+    }
+
+    const user = await User.findById(employee.userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: "Associated user not found" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: employee.userId },
+      { name },
+      { new: true }
+    );
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      { _id: id },
+      { maritalStatus, designation, department, salary },
+      { new: true }
+    );
+  
+    if (!updatedUser || !updatedEmployee) {
+      return res.status(500).json({ success: false, error: "Failed to update employee or user" });
+    }
+
+    return res.status(200).json({ success: true, message: "Employee updated successfully" });
+  } catch (error) {
+    console.error("Edit Employee Error:", error);
+    return res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
 module.exports = {addEmployee , upload , getEmployees , getEmployee , editEmployee}

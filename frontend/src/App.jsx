@@ -62,6 +62,9 @@ const App = () =>{
               <Route path="/admin-dashboard/leaves" element = {<AdminLeaveList />}></Route>
               <Route path="/admin-dashboard/leaves/:id" element = {<LeaveDetails />}></Route>
 
+
+              <Route path="/admin-dashboard/settings" element = {<Settings />}></Route>
+
             </Route>
           <Route path="/employee-dashboard" element = {
             <PrivateRoutes>
