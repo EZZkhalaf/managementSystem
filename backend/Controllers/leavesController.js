@@ -4,7 +4,7 @@ const Employee = require('../model/Employee');
 const addLeave = async(req,res)=>{
     try {
         const {userId , leaveType , startDate , toDate , reason} = req.body;
-        console.log(req.body)
+        // console.log(req.body)
         if (!userId || !leaveType || !startDate || !toDate || !reason) {
             return res.status(400).json({
                 success: false,

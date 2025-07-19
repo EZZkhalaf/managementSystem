@@ -1,28 +1,35 @@
 import React from 'react'
 import { useState } from 'react';
 import { changeStatus, fetchLeave } from '../../Utils/LeavesHelper';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const LeaveDetails = () => {
     const {id} = useParams();
   const [leave , setLeave] = useState(null);
-
+  const navigate = useNavigate();
   const fetchingLeave = async()=>{
     const data = await fetchLeave(id);
     setLeave(data)
   }
-  console.log(leave)
 
   useEffect(()=>{
     fetchingLeave();
-  },[])
+  },[]) 
 
-//   const statusChanging = async(status)=>{
-//     const data = await changeStatus( id, status) ;
-//     setLeave(data)
-//   }
+ const statusChanging = async (status) => {
+  await changeStatus(id, status , navigate);
+  
+};
 
+
+  if (!leave) {
+  return (
+    <div className="text-center py-20 text-gray-600 text-xl">
+      Loading Leave Details...
+    </div>
+  );
+}
   return (
 <div className="bg-white max-w-4xl mx-auto px-6 py-10 rounded-2xl shadow-xl">
   <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">

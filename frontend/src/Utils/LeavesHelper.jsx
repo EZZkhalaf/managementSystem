@@ -213,7 +213,7 @@ export const addLeave = async (formdata , navigate) => {
             toast.success("added the leave successfully");
             return data;
         }else {
-        toast.error("Failed to fetch departments");
+        toast.error("Failed to add leave");
         }
     } catch (error) {
         console.error(error);
@@ -273,7 +273,6 @@ export const fetchAllLeaves = async () => {
         });
 
         const resData = await response.json();
-        console.log(resData)
         if (resData.success) {
             let sno = 1;
             const data = resData.leaves.map((leave) => ({
@@ -283,7 +282,6 @@ export const fetchAllLeaves = async () => {
               name: leave.employeeId.userId.name,
               leaveType: leave.leaveType,
               department: leave.employeeId.department.dep_name,
-              status : leave.status,
               fromDate: new Date(leave.startDate).toLocaleDateString(), // Show "From" date
               endDate: new Date(leave.endDate).toLocaleDateString(),     // Show "To" date
               AppliedDate: new Date(leave.createdAt).toLocaleDateString(), // Show applied date
@@ -307,6 +305,7 @@ export const fetchAllLeaves = async () => {
 
 
 export const fetchLeave = async(id ) =>{
+  // console.log(id)
     try {
         const response = await fetch(`http://localhost:5000/api/leave/get-details/${id}`, {
             method : "GET" ,
@@ -330,28 +329,34 @@ export const fetchLeave = async(id ) =>{
     }  
 }
 
-export const changeStatus = async(id , status) => {
+
+export const changeStatus = async (id, status , navigate) => {
   try {
-        const response = await fetch(`http://localhost:5000/api/leave/${id}`, {
-            method : "PUT" ,
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('token')}`
-            } , 
-            body : JSON.stringify(status)
-        });
+    const response = await fetch(`http://localhost:5000/api/leave/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ status })
+    });
 
-        const resData = await response.json();
-        // console.log(resData)
-        if (resData.success) {
-            const data = resData.leave
-            return data
-        } else {
-        toast.error("Failed to fetch departments");
-        }
+    const resData = await response.json();
+    console.log(resData);
 
-    } catch (error) {
-        console.error(error);
-        toast.error("Something went wrong");
-    }  
-}
+    if (response.ok && resData.success) {
+      toast.success("Leave status updated successfully");
+      navigate("/admin-dashboard/leaves")
+      return resData.leave;
+    } else {
+      toast.error(resData.error || "Failed to update leave status.");
+      return null;
+    }
+
+  } catch (error) {
+    console.error("changeStatus error:", error);
+    toast.error("Something went wrong while updating status.");
+    return null;
+  }
+};
 
