@@ -85,6 +85,51 @@ Start backend server:
 npm run dev
 ```
 
+## 📡 API Routes
+
+### 🔐 Auth Routes
+| Method | Endpoint             | Description               |
+|--------|----------------------|---------------------------|
+| POST   | `/api/auth/login`    | Login for Admin/Employee  |
+| POST   | `/api/auth/register` | Register a new employee   |
+
+---
+
+### 👨‍💼 Admin Routes
+| Method | Endpoint                         | Description                        |
+|--------|----------------------------------|------------------------------------|
+| GET    | `/api/employees`                 | Get all employees                  |
+| GET    | `/api/employees/:id`             | Get single employee by ID          |
+| POST   | `/api/employees`                 | Add new employee                   |
+| PUT    | `/api/employees/:id`             | Update employee                    |
+| DELETE | `/api/employees/:id`             | Delete employee                    |
+| GET    | `/api/departments`               | Get all departments                |
+| POST   | `/api/departments`               | Add new department                 |
+| PUT    | `/api/departments/:id`           | Update department                  |
+| DELETE | `/api/departments/:id`           | Delete department                  |
+| PUT    | `/api/leaves/:id/status`         | Approve or reject leave request    |
+| GET    | `/api/salaries/employee/:id`     | Get salaries by employeeId         |
+| POST   | `/api/salaries`                  | Add or update employee salary      |
+
+---
+
+### 👷 Employee Routes
+| Method | Endpoint                        | Description                        |
+|--------|---------------------------------|------------------------------------|
+| GET    | `/api/profile`                  | Get logged-in employee profile     |
+| PUT    | `/api/profile/update`           | Update personal profile            |
+| POST   | `/api/leaves`                   | Submit new leave request           |
+| GET    | `/api/leaves`                   | View my leave requests             |
+
+---
+
+### 🛠 Other Routes (Optional)
+| Method | Endpoint                         | Description                     |
+|--------|----------------------------------|---------------------------------|
+| POST   | `/api/settings/change-password`  | Change account password         |
+| GET    | `/api/dashboard/stats`           | Admin dashboard data (optional) |
+
+
 ### 3. Frontend Setup
 ```bash 
 cd ../frontend
