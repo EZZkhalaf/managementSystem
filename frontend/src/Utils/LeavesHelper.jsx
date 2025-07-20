@@ -276,21 +276,25 @@ export const fetchAllLeaves = async () => {
         const resData = await response.json();
         if (resData.success) {
             let sno = 1;
-            const data = resData.leaves.map((leave) => ({
-              _id: leave._id,
-              sno: sno++,
-              employeeId: leave.employeeId.employeeId,
-              name: leave.employeeId.userId.name,
-              leaveType: leave.leaveType,
-              department: leave.employeeId.department.dep_name,
-              fromDate: new Date(leave.startDate).toLocaleDateString(), // Show "From" date
-              endDate: new Date(leave.endDate).toLocaleDateString(),     // Show "To" date
-              AppliedDate: new Date(leave.createdAt).toLocaleDateString(), // Show applied date
-              days:
-                (new Date(leave.endDate) - new Date(leave.startDate)) / (1000 * 60 * 60 * 24) + 1, // Total days inclusive
-              description: leave.reason,
-              status: leave.status,
-              action: <LeavesButton Id={leave._id} />,
+            const filteredLeaves = resData.leaves.filter(leave => 
+                leave?.employeeId?.department?.dep_name
+            );
+
+            const data = filteredLeaves.map((leave) => ({
+                _id: leave._id,
+                sno: sno++,
+                employeeId: leave.employeeId.employeeId,
+                name: leave.employeeId.userId.name,
+                leaveType: leave.leaveType,
+                department: leave.employeeId.department.dep_name,
+                fromDate: new Date(leave.startDate).toLocaleDateString(),
+                endDate: new Date(leave.endDate).toLocaleDateString(),
+                AppliedDate: new Date(leave.createdAt).toLocaleDateString(),
+                days:
+                    (new Date(leave.endDate) - new Date(leave.startDate)) / (1000 * 60 * 60 * 24) + 1,
+                description: leave.reason,
+                status: leave.status,
+                action: <LeavesButton Id={leave._id} />,
             }));
 
             return data

@@ -10,4 +10,5 @@ router.get('/' , verifyUser, getEmployees)
 router.get('/:id' , verifyUser, getEmployee)
 router.put('/edit/:id' ,verifyUser, editEmployee)
 
+
 module.exports = router;

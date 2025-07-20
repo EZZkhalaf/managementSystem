@@ -1,4 +1,7 @@
 const  User  = require("../model/User");
+const  Department  = require("../model/Department");
+const  Leaves  = require("../model/Leaves");
+const  Employee  = require("../model/Employee");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -73,4 +76,34 @@ const login = async(req,res) =>{
 const verify = (req,res) => {
     return res.status(200).json({success : true , user : req.user})
 }
-module.exports = {login , register , verify}
+
+const getSummary = async(req,res) =>{
+    try {
+
+            // Count totals
+    const totalEmployees = await Employee.countDocuments();
+    const totalDepartments = await Department.countDocuments();
+
+    // Count leaves by status
+    const totalLeaves = await Leaves.countDocuments();
+    const leaveApproved = await Leaves.countDocuments({ status: "Approved" });
+    const leavePending = await Leaves.countDocuments({ status: "Pending" });
+    const leaveRejected = await Leaves.countDocuments({ status: "Rejected" });
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            totalEmployees,
+            totalDepartments,
+            totalLeaves,
+            leaveApproved,
+            leavePending,
+            leaveRejected
+        }
+    });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({success : false , error:"cannot get the employee salaries from server"});        
+    }
+}
+module.exports = {login , register , verify , getSummary}
